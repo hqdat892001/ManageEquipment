@@ -10,6 +10,6 @@ FROM openjdk:17.0.1-jdk-slim
 # copy jar from the first stage
 COPY --from=build target/ManageEquipment-0.0.1-SNAPSHOT.jar ManageEquipment.jar
 
-EXPOSE 8080
+EXPOSE 9090
 
 CMD ["java", "-jar", "ManageEquipment.jar"]
