@@ -1,19 +1,15 @@
 # First stage: complete build environment
-FROM maven:3.8.5-openjdk-17 AS builder
+FROM maven:3.8.5-openjdk-17 AS build
 
 # add pom.xml and source code
-ADD ./pom.xml pom.xml
-ADD ./src src/
+COPY . .
+RUN  mvn clean package -DskipTests
 
-# package jar
-RUN mvn clean package
-
-# Second stage: minimal runtime environment
-From openjdk:8-jre-alpine
+FROM openjdk:17.0.1-jdk-slim
 
 # copy jar from the first stage
-COPY --from=builder target/my-app-1.0-SNAPSHOT.jar my-app-1.0-SNAPSHOT.jar
+COPY --from=build target/ManageEquipment-0.0.1-SNAPSHOT.jar ManageEquipment.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "my-app-1.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "ManageEquipment.jar"]
