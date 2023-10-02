@@ -12,4 +12,4 @@ COPY --from=build target/ManageEquipment-0.0.1-SNAPSHOT.jar ManageEquipment.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "ManageEquipment.jar"]
+ENTRYPOINT ["java", "-jar", "ManageEquipment.jar"]
