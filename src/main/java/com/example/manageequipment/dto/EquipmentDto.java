@@ -15,5 +15,7 @@ public class EquipmentDto {
     private String name;
     private String imageUrl;
     private Long ownerId;
+    private Long type;
+    private String description;
     private List<Long> transferredUserIds = new ArrayList<>();
 }

@@ -143,14 +143,6 @@ public class UserServiceImpl implements UserService {
                 }
             }
 
-//            Set<Equipment> transferredEquip = user.getTransferredEquipment();
-//            transferredEquip.forEach(equip -> {
-//                Set<User> users = equip.getTransferredUser();
-//                users.remove(user);
-//                equip.setTransferredUser(users);
-//                equipmentRepository.save(equip);
-//            });
-
             userRepository.delete(user);
         });
 

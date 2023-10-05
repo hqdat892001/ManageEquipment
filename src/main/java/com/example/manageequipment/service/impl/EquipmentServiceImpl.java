@@ -4,8 +4,10 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.manageequipment.dto.EquipmentDto;
 import com.example.manageequipment.dto.UserDto;
+import com.example.manageequipment.model.Category;
 import com.example.manageequipment.model.Equipment;
 import com.example.manageequipment.model.User;
+import com.example.manageequipment.repository.CategoryRepository;
 import com.example.manageequipment.repository.EquipmentRepository;
 import com.example.manageequipment.repository.UserRepository;
 import com.example.manageequipment.service.EquipmentService;
@@ -36,12 +38,17 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
 
     public EquipmentDto mapToDto(Equipment equipment) {
         EquipmentDto equipmentDto = new EquipmentDto();
         equipmentDto.setId(equipment.getId());
         equipmentDto.setName(equipment.getName());
         equipmentDto.setImageUrl(equipment.getImageUrl());
+        equipmentDto.setType(equipment.getType().getId());
+        equipmentDto.setDescription(equipment.getDescription());
 
         if (equipment.getOwner() != null) {
             equipmentDto.setOwnerId(equipment.getOwner().getId());
@@ -62,7 +69,8 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public EquipmentDto createEquipment(Equipment equipment, MultipartFile image) throws IOException {
+    public EquipmentDto createEquipment(EquipmentDto equipmentDto, MultipartFile image) throws IOException {
+        Equipment newEquipment = new Equipment();
         if (image != null && !image.isEmpty()) {
 
             Map r = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -72,19 +80,29 @@ public class EquipmentServiceImpl implements EquipmentService {
             System.out.println("====================================================");
             System.out.println("image url: "+ imgUrl);
             System.out.println("====================================================");
-            equipment.setImageUrl(imgUrl);
+            newEquipment.setName(equipmentDto.getName());
+            newEquipment.setImageUrl(imgUrl);
+            newEquipment.setDescription(equipmentDto.getDescription());
 
-            Equipment equipmentCreated = equipmentRepository.save(equipment);
+            Category category = categoryRepository.findById(equipmentDto.getType()).get();
+            newEquipment.setType(category);
+
+            Equipment equipmentCreated = equipmentRepository.save(newEquipment);
 
             return mapToDto(equipmentCreated);
         }
         else {
-            Equipment equipmentCreated = equipmentRepository.save(equipment);
+            newEquipment.setName(equipmentDto.getName());
+            Category category = categoryRepository.findById(equipmentDto.getType()).get();
 
-            EquipmentDto equipmentDto = mapToDto(equipmentCreated);
-            return equipmentDto;
+            newEquipment.setDescription(equipmentDto.getDescription());
+
+            newEquipment.setType(category);
+            Equipment equipmentCreated = equipmentRepository.save(newEquipment);
+
+            EquipmentDto newEquipmentDto = mapToDto(equipmentCreated);
+            return newEquipmentDto;
         }
-
     }
 
     @Override
@@ -105,6 +123,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentDtos;
     }
 
+
     @Override
     public EquipmentDto updateEquipment(Long equipmentId, EquipmentDto equipmentDto, MultipartFile image) throws IOException {
         Equipment equipment = equipmentRepository.findById(equipmentId)
@@ -112,6 +131,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 
         if (equipmentDto.getName() != null) {
             equipment.setName(equipmentDto.getName());
+        }
+
+        if (equipmentDto.getType() != null) {
+            Category category = categoryRepository.findById(equipmentDto.getId()).get();
+
+            equipment.setType(category);
         }
 
         if (image != null && !image.isEmpty()) {
@@ -173,5 +198,10 @@ public class EquipmentServiceImpl implements EquipmentService {
             equipmentRepository.save(equipment);
         });
         return userService.mapToDto(userData);
+    }
+
+    @Override
+    public UserDto requestEquipment(List<Long> ids, Long userId) {
+        return null;
     }
 }

@@ -21,6 +21,10 @@ public class Equipment {
 
     private String name;
 
+    private String imageUrl;
+
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner = null;
@@ -32,7 +36,10 @@ public class Equipment {
     @JsonIgnore
     private Set<User> transferredUser = new HashSet<>();
 
-    private String imageUrl;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category type = null;
 
     @Override
     public String toString() {
