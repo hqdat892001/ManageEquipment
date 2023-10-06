@@ -24,6 +24,7 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "type")
+    @JsonIgnore
     private Set<Equipment> equipments = new HashSet<>();
 
     @OneToMany(mappedBy = "requestEquipmentType")

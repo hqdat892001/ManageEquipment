@@ -105,6 +105,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         }
     }
 
+
     @Override
     public List<EquipmentDto> getAllEquipment(String name) {
         List<Equipment> equipmentList = equipmentRepository.findByNameContaining(name);
@@ -113,7 +114,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 
         return equipmentDtos;
     }
-
     @Override
     public List<EquipmentDto> getEquipmentByOwnerId(int ownerId) {
         List<Equipment> equipmentList = equipmentRepository.findByOwnerId(ownerId);
