@@ -22,7 +22,7 @@ public class Request {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userOwner;
 
-    private boolean isPending = true;
+    private String state;
 
     private String description;
 

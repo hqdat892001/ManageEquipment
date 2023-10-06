@@ -1,20 +1,3 @@
-server:
-  port: 9090
-  error:
-    include-message: always
-
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    url: jdbc:mysql://containers-us-west-161.railway.app:6262/railway
-    password: pLEbhbMaizuODj6DskjX
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    open-in-view: true
-
 #server:
 #  port: 9090
 #  error:
@@ -24,10 +7,27 @@ spring:
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    username: root
-#    url: jdbc:mysql://localhost:3306/manageequipment
-#    password: 0392338494
+#    url: jdbc:mysql://containers-us-west-161.railway.app:6262/railway
+#    password: pLEbhbMaizuODj6DskjX
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
 #    show-sql: true
 #    open-in-view: true
+
+server:
+  port: 9090
+  error:
+    include-message: always
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/manageequipment
+    password: 0392338494
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true

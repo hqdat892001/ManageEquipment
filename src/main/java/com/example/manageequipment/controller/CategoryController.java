@@ -28,7 +28,7 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/get-category")
     public ResponseEntity<List<Category>> getCategory(){
         return new ResponseEntity<>(categoryService.getCategory(), HttpStatus.CREATED);

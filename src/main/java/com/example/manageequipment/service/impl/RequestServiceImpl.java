@@ -41,7 +41,7 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto mapToDto(Request request) {
         RequestDto requestDto = new RequestDto();
         requestDto.setUserId(request.getUserOwner().getId());
-        requestDto.setPending(request.isPending());
+        requestDto.setState(request.getState());
         requestDto.setId(request.getId());
         requestDto.setRequestEquipmentTypeId(request.getRequestEquipmentType().getId());
         requestDto.setDescription(request.getDescription());
@@ -59,7 +59,7 @@ public class RequestServiceImpl implements RequestService {
 
         request.setDescription(requestDto.getDescription());
         request.setUserOwner(user);
-        request.setPending(request.isPending());
+        request.setState("PENDING");
         request.setRequestEquipmentType(category);
 
         requestRepository.save(request);

@@ -13,7 +13,7 @@ import java.util.List;
 public class RequestDto {
     public Long id;
     public Long userId;
-    public boolean isPending;
+    public String state;
     public String description;
     public Long requestEquipmentTypeId;
 }
